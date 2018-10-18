@@ -1,0 +1,27 @@
+{
+  "name": "proper-chitchat",
+  "version": "1.0.0",
+  "description": "A proper chitchat application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abbasbeydoun/proper-chitchat.git"
+  },
+  "author": "Abbas Beydoun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abbasbeydoun/proper-chitchat/issues"
+  },
+  "homepage": "https://github.com/abbasbeydoun/proper-chitchat#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "get-random-values": "^1.2.0",
+    "mongodb": "^3.1.8",
+    "socket.io": "^2.1.1"
+  }
+}

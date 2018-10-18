@@ -1,0 +1,17 @@
+<!--<div mat-dialog-content>-->
+  <!--<p>Choose username</p>-->
+  <!--<mat-form-field >-->
+    <!--<input matInput [(ngModel)]="username" (keyup.enter)="closeDialog()">-->
+  <!--</mat-form-field>-->
+<!--</div>-->
+<!--<div mat-dialog-actions>-->
+  <!--<button mat-button [mat-dialog-close]="username" cdkFocusInitial>Ok</button>-->
+<!--</div>-->
+
+<div class="container">
+  <mat-form-field>
+    <input matInput placeholder="Choose a username" [formControl]="username" required (keyup.enter)="closeDialog()">
+    <mat-error *ngIf="username.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <button type="submit" mat-button (click)="closeDialog()">Ok</button>
+</div>
