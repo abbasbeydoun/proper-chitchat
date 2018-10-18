@@ -155,6 +155,16 @@ io.on('connection', (socket) => {
             last_five.push(message);
         }
 
+        db.collection('connected_users').findOne({socketid: socketID}).then((returnedUser) => {
+
+            db.collection('connected_users').deleteOne({user: returnedUser['user']}, (err, result) => {
+                if(err) console.log(err);
+            });
+
+        });
+
+
+
     });
 
 
