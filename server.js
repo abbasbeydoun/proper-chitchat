@@ -27,7 +27,11 @@ class Message {
 
 let db;
 
-// TODO: Store mongo username and password in safe place and retrieve from there
+// This is a mlab account i created for development purposes
+
+
+// In production, the username and password would be read from a config file and that has strict permissions set to it
+
 
 MongoClient.connect('mongodb://abbasbeydoun95:mlabpass69@ds129823.mlab.com:29823/storage', { useNewUrlParser: true }  , (err, database) => {
 
@@ -59,8 +63,25 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 
-let last_five = [];
 
+app.get('/api/checkUsername/:username', (req, res) => {
+    const username = req.params['username'];
+
+    db.collection('connected_users').findOne({username: username}).then((returnedUser) => {
+
+        // sends true if user exists, false if user does not
+        if(returnedUser) {
+            return res.status(200).send(true);
+        }
+        return res.status(200).send(false);
+    });
+
+});
+
+
+
+
+let last_five = [];
 
 
 

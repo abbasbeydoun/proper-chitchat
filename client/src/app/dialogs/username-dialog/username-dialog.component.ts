@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import {FormControl, Validators} from '@angular/forms';
+import { FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-username-dialog',
@@ -9,17 +9,18 @@ import {FormControl, Validators} from '@angular/forms';
 })
 export class UsernameDialogComponent implements OnInit {
 
-  // private username: string;
+  username = new FormControl('', [Validators.required]);
 
-  username = new FormControl('', [Validators.required, Validators.email]);
-
-  constructor(public dialogRef: MatDialogRef<UsernameDialogComponent>){}
+  constructor(public dialogRef: MatDialogRef<UsernameDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any){}
 
   ngOnInit() {}
 
+
+
   getErrorMessage() {
-    return this.username.hasError('required') ? 'You must choose a username' :
-      this.username.hasError('username') ? 'Not a valid email' : '';
+    if (this.username.hasError('required')) {
+      return 'You must choose a username';
+    }
   }
 
   closeDialog(){

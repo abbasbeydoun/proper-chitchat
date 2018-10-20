@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import {ChatService} from './services/chat.service';
-import {HttpClient} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 import { UsernameDialogComponent } from './dialogs/username-dialog/username-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,6 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -34,7 +35,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatDialogModule,
     BrowserAnimationsModule
   ],
-  providers: [ChatService, HttpClient, {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}, {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'}}],
+  providers: [ChatService, {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}, {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'}}],
   bootstrap: [AppComponent],
   entryComponents: [UsernameDialogComponent]
 })

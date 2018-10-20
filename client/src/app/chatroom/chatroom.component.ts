@@ -26,26 +26,44 @@ export class ChatroomComponent implements OnInit, AfterViewInit {
   ngOnInit() {}
 
   ngAfterViewInit(){
-   setTimeout(() => this.askForUsername());
+   setTimeout(() => this.askForUsername('unknown'));
 
   }
 
-  private askForUsername(): void {
+
+
+  private askForUsername(data: string): void {
 
     const dialogRef = this.dialog.open(UsernameDialogComponent, {
       width: '250px',
       height: '200px',
       disableClose: true,
-      autoFocus: true
+      autoFocus: true,
+      data: {userExists: data}
     });
 
     dialogRef.afterClosed().subscribe(choosenUsername => {
+
       if(choosenUsername) {
-        this.user['username'] = choosenUsername;
-        this.chatService.connectUser(choosenUsername);
-        this.getMessage(); // subscribe the user to receive messages after user is connected
+
+        // check if username is already taken
+
+        this.chatService.checkUsernameAvailability(choosenUsername).subscribe((userExists) => {
+
+          if(!userExists) {
+
+            this.user['username'] = choosenUsername;
+            this.chatService.connectUser(choosenUsername);
+            this.getMessage(); // subscribe the user to receive messages after user is connected
+
+          }else {
+            this.askForUsername('true')
+          }
+
+        });
+
       }else{
-        this.askForUsername();
+        this.askForUsername('unknown');
       }
     });
 
