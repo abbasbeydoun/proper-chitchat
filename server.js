@@ -62,6 +62,18 @@ app.use(bodyParser.json());
 let last_five = [];
 
 
+
+
+function updateLastFive(message) {
+    if(last_five.length === 5) {
+        last_five.shift();
+        last_five.push(message);
+    }else{
+        last_five.push(message);
+    }
+}
+
+
 io.on('connection', (socket) => {
 
     let username = socket.handshake.query['username'] ? socket.handshake.query['username'] : 'ERR: UNDEFINED USERNAME';
@@ -91,18 +103,10 @@ io.on('connection', (socket) => {
 
                 const userJoinedMessage = new Message(new User('SERVER'), username + ' has joined the chatroom');
 
-                // io.emit('message', userJoinedMessage);
-
-                if(last_five.length === 5) {
-                    last_five.shift();
-                    last_five.push(userJoinedMessage);
-                }else{
-                    last_five.push(userJoinedMessage);
-                }
+                updateLastFive(userJoinedMessage);
 
                 // send connected user last five messsages
                 last_five.forEach((message) => {
-                    console.log(message);
                     if(message) {
 
                         io.emit('message', message);
@@ -141,12 +145,7 @@ io.on('connection', (socket) => {
 
         io.emit('message', message);
 
-        if(last_five.length === 5) {
-            last_five.shift();
-            last_five.push(message);
-        }else{
-            last_five.push(message);
-        }
+        updateLastFive(message);
 
     });
 
@@ -156,12 +155,7 @@ io.on('connection', (socket) => {
 
         io.emit('message', message);
 
-        if(last_five.length === 5) {
-            last_five.shift();
-            last_five.push(message);
-        }else{
-            last_five.push(message);
-        }
+        updateLastFive(message);
 
         db.collection('connected_users').findOne({socketid: socketID}).then((returnedUser) => {
 
