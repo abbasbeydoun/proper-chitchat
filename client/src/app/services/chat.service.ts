@@ -23,7 +23,7 @@ export class ChatService {
   public getMessage() {
     return new Observable<Message>((observer) => {
       this.socket.on('message', (data: Message) => observer.next(data));
-      this.socket.on('newuserjoined', (data: Message) => observer.next(data));
+      // this.socket.on('newuserjoined', (data: Message) => observer.next(data));
     });
   }
 

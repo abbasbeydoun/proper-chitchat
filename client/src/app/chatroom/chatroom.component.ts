@@ -53,8 +53,11 @@ export class ChatroomComponent implements OnInit, AfterViewInit {
 
 
    sendMessage(): void {
-    this.chatService.sendMessage(new Message(this.user, this.message));
-    this.message = '';
+
+    if(this.message !== '') {
+      this.chatService.sendMessage(new Message(this.user, this.message));
+      this.message = '';
+    }
   }
 
    getMessage(): void {

@@ -91,13 +91,21 @@ io.on('connection', (socket) => {
 
                 const userJoinedMessage = new Message(new User('SERVER'), username + ' has joined the chatroom');
 
-                io.emit('newuserjoined', userJoinedMessage);
+                // io.emit('message', userJoinedMessage);
+
+                if(last_five.length === 5) {
+                    last_five.shift();
+                    last_five.push(userJoinedMessage);
+                }else{
+                    last_five.push(userJoinedMessage);
+                }
 
                 // send connected user last five messsages
                 last_five.forEach((message) => {
+                    console.log(message);
                     if(message) {
 
-                        socket.emit('message', message);
+                        io.emit('message', message);
 
                     }
                 });
@@ -146,7 +154,7 @@ io.on('connection', (socket) => {
 
         const message = new Message(new User('SERVER'), username+' has left the chatroom');
 
-        io.emit('newuserjoined', message);
+        io.emit('message', message);
 
         if(last_five.length === 5) {
             last_five.shift();
