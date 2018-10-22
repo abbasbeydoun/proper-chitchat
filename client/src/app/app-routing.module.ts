@@ -1,19 +1,34 @@
 
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {ChatroomComponent} from "./chatroom/chatroom.component";
+import {GroupChatTabComponent} from "./chat-tabs-container/group-chat-tab/group-chat-tab.component";
+import {PrivateChatTabComponent} from "./chat-tabs-container/private-chat-tab/private-chat-tab.component";
+import {ChatTabsContainerComponent} from "./chat-tabs-container/chat-tabs-container.component";
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'chat',
+    redirectTo: 'chats',
     pathMatch: 'full'
   },
 
   {
-    path: 'chat',
-    component: ChatroomComponent
+    path: 'chats',
+    component: ChatTabsContainerComponent,
+    children: [
+
+      {
+        path: 'group-chat',
+        component: GroupChatTabComponent
+      },
+      {
+        path: ':username',
+        component: PrivateChatTabComponent
+      }
+
+    ]
+
 
   }
 

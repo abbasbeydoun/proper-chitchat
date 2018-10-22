@@ -5,6 +5,8 @@
   </mat-form-field>
   <button type="submit" mat-button (click)="closeDialog()">Ok</button>
 
+  <br/>
+
 
   <mat-error *ngIf="data['userExists'] == 'true'">That username is already taken</mat-error>
 

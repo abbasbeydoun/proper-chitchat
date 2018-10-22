@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+
 import {ChatService} from './services/chat.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ChatroomComponent } from './chatroom/chatroom.component';
@@ -12,9 +13,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
   MatFormFieldModule, MatDialogModule, MatInputModule, MAT_DIALOG_DEFAULT_OPTIONS,
-  MAT_LABEL_GLOBAL_OPTIONS
+  MAT_LABEL_GLOBAL_OPTIONS, MatTabsModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GroupChatTabComponent } from './chat-tabs-container/group-chat-tab/group-chat-tab.component';
+import { PrivateChatTabComponent } from './chat-tabs-container/private-chat-tab/private-chat-tab.component';
+import { ChatTabsContainerComponent } from './chat-tabs-container/chat-tabs-container.component';
 
 
 
@@ -22,7 +26,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     ChatroomComponent,
-    UsernameDialogComponent
+    UsernameDialogComponent,
+    GroupChatTabComponent,
+    PrivateChatTabComponent,
+    ChatTabsContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +37,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,

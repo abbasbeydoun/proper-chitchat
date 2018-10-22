@@ -1,23 +1,24 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import * as io from 'socket.io-client';
-import {User} from "../models/user.model";
-import {Message} from "../models/message.model";
-import {ChatService} from "../services/chat.service";
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig} from '@angular/material';
-import {UsernameDialogComponent} from "../dialogs/username-dialog/username-dialog.component";
+import {User} from "../../models/user.model";
+import {Message} from "../../models/message.model";
+import {ChatService} from "../../services/chat.service";
+import {MatDialog} from '@angular/material';
+import {UsernameDialogComponent} from "../../dialogs/username-dialog/username-dialog.component";
+import {MatTabComponent} from "../mat-tab/mat-tab.component";
 
 @Component({
   selector: 'app-chatroom',
   templateUrl: './chatroom.component.html',
   styleUrls: ['./chatroom.component.css']
 })
-export class ChatroomComponent implements OnInit, AfterViewInit {
+export class GroupChatTabComponent implements OnInit, AfterViewInit {
 
   public messages: Message[];
   private user: User;
   private message: string;
 
   constructor(private chatService: ChatService, public dialog: MatDialog) {
+
     this.messages = [];
     this.user = new User('');
     this.message = '';
@@ -26,10 +27,9 @@ export class ChatroomComponent implements OnInit, AfterViewInit {
   ngOnInit() {}
 
   ngAfterViewInit(){
-   setTimeout(() => this.askForUsername('unknown'));
+    setTimeout(() => this.askForUsername('unknown'));
 
   }
-
 
 
   private askForUsername(data: string): void {
@@ -70,7 +70,7 @@ export class ChatroomComponent implements OnInit, AfterViewInit {
   }
 
 
-   sendMessage(): void {
+  sendMessage(): void {
 
     if(this.message !== '') {
       this.chatService.sendMessage(new Message(this.user, this.message));
@@ -78,12 +78,17 @@ export class ChatroomComponent implements OnInit, AfterViewInit {
     }
   }
 
-   getMessage(): void {
+  getMessage(): void {
     this.chatService.getMessage().subscribe((msg: Message) => {
       this.messages.push(msg);
     });
   }
 
+
+  privateChat(username: string): void {
+    console.log(username);
+
+  }
 
 
 

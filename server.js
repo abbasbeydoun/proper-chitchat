@@ -32,6 +32,8 @@ let db;
 
 // In production, the username and password would be read from a config file and that has strict permissions set to it
 
+// TODO: Actually do that
+
 
 MongoClient.connect('mongodb://abbasbeydoun95:mlabpass69@ds129823.mlab.com:29823/storage', { useNewUrlParser: true }  , (err, database) => {
 
@@ -154,6 +156,7 @@ io.on('connection', (socket) => {
         }else {
 
             // error connecting to database
+
 
         }
 
