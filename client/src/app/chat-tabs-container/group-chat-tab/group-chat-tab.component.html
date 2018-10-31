@@ -1,11 +1,5 @@
 
-<mat-tab-group>
 
-  <mat-tab>
-
-    <ng-template mat-tab-label>
-      Group Chat
-    </ng-template> <br/><br/>
 
     <div *ngFor="let msg of messages">
       <b style="cursor: pointer;" (click)="privateChat($event.target.innerHTML)">{{msg['owner']['username']}}</b>: {{msg['content']}}  <br/>
@@ -13,8 +7,3 @@
 
     <input [(ngModel)]="message" (keyup)="$event.keyCode == 13 && sendMessage()" />
     <button (click)="sendMessage()">Send</button>
-
-  </mat-tab>
-
-
-</mat-tab-group>

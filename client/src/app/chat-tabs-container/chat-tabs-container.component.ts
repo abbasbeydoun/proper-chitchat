@@ -1,15 +1,84 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {UsernameDialogComponent} from "../dialogs/username-dialog/username-dialog.component";
+import {User} from "../models/user.model";
+import {ChatService} from "../services/chat.service";
+import {Message} from "../models/message.model";
+import {MatDialog} from '@angular/material';
+import {PrivateChatTabComponent} from "./private-chat-tab/private-chat-tab.component";
 
 @Component({
-  selector: 'app-chat-tabs-container',
+  selector: 'chat-tabs-container',
   templateUrl: './chat-tabs-container.component.html',
   styleUrls: ['./chat-tabs-container.component.css']
 })
-export class ChatTabsContainerComponent implements OnInit {
+export class ChatTabsContainerComponent implements OnInit, AfterViewInit {
 
-  constructor() { }
+  numberOfPrivateChats: Array<number>;
+  @ViewChild('privateChatsContainer', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
+  user: User;
+  userConnected: boolean = false;
 
-  ngOnInit() {
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private chatService: ChatService, public dialog: MatDialog) {
+    this.numberOfPrivateChats = [];
   }
 
+  ngOnInit() {}
+
+  ngAfterViewInit(){
+    setTimeout(() => this.askForUsername('unknown'));
+  }
+
+  private askForUsername(data: string): void {
+
+    const dialogRef = this.dialog.open(UsernameDialogComponent, {
+      width: '250px',
+      height: '200px',
+      disableClose: true,
+      autoFocus: true,
+      data: {userExists: data}
+    });
+
+    dialogRef.afterClosed().subscribe(choosenUsername => {
+
+      if(choosenUsername) {
+
+        // check if username is already taken
+
+        this.chatService.checkUsernameAvailability(choosenUsername).subscribe((userExists) => {
+
+          if(!userExists) {
+
+            this.user = new User(choosenUsername);
+            this.chatService.connectUser(choosenUsername);
+            this.userConnected = true;
+
+          }else {
+            this.askForUsername('true');
+          }
+
+        });
+
+      }else{
+        this.askForUsername('unknown');
+      }
+    });
+
+  }
+
+
+  initiatePrivateChat(username: string) {
+
+    // dynamically generate a private chat tab with this user passed as @Input()
+    this.numberOfPrivateChats.push(1);
+    const factory = this.componentFactoryResolver.resolveComponentFactory(PrivateChatTabComponent);
+    const ref = this.viewContainerRef.createComponent(factory);
+    ref.instance.user = new User(username);
+    ref.changeDetectorRef.detectChanges();
+
+  }
+
+
+
 }
+
+

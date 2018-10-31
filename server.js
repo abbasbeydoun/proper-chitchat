@@ -104,11 +104,10 @@ io.on('connection', (socket) => {
 
     /*
     1- Generate user UUID string
-    2- Check if that user exists, if it does, generate new user UUID string, check if that exists, etc ...
-    3 - If user does not exist, add to list of users in db
+    2- Check if that UUID exists, if it does, generate new user UUID string, check if that exists, etc ...
+    3 - If UUID does not exist, add to list of users in db
      */
 
-    // This will verify 100% that we are adding a unique user to the db, completely eliminate the possibility of duplicates
 
 
     const generateUser = () => {
@@ -126,16 +125,19 @@ io.on('connection', (socket) => {
 
                 const userJoinedMessage = new Message(new User('SERVER'), username + ' has joined the chatroom');
 
-                updateLastFive(userJoinedMessage);
+
 
                 // send connected user last five messsages
-                last_five.forEach((message) => {
-                    if(message) {
 
-                        io.emit('message', message);
-
+                for(let i=0;i<last_five.length;i++){
+                    if(last_five[i]){
+                        io.to(socketID).emit('message', last_five[i]);
                     }
-                });
+                }
+
+                io.emit('message', userJoinedMessage);
+
+                updateLastFive(userJoinedMessage);
 
 
                 // Unique userID confirmed and generated, add to database

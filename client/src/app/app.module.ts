@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 
 import {ChatService} from './services/chat.service';
 import { HttpClientModule } from '@angular/common/http';
-import { ChatroomComponent } from './chatroom/chatroom.component';
 import { UsernameDialogComponent } from './dialogs/username-dialog/username-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -25,7 +24,6 @@ import { ChatTabsContainerComponent } from './chat-tabs-container/chat-tabs-cont
 @NgModule({
   declarations: [
     AppComponent,
-    ChatroomComponent,
     UsernameDialogComponent,
     GroupChatTabComponent,
     PrivateChatTabComponent,

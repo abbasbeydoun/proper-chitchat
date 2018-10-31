@@ -1,74 +1,29 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from "../../models/user.model";
 import {Message} from "../../models/message.model";
 import {ChatService} from "../../services/chat.service";
-import {MatDialog} from '@angular/material';
-import {UsernameDialogComponent} from "../../dialogs/username-dialog/username-dialog.component";
-import {MatTabComponent} from "../mat-tab/mat-tab.component";
+
 
 @Component({
-  selector: 'app-chatroom',
-  templateUrl: './chatroom.component.html',
-  styleUrls: ['./chatroom.component.css']
+  selector: 'group-chat-tab',
+  templateUrl: './group-chat-tab.component.html',
+  styleUrls: ['./group-chat-tab.component.css']
 })
-export class GroupChatTabComponent implements OnInit, AfterViewInit {
+export class GroupChatTabComponent implements OnInit {
 
   public messages: Message[];
-  private user: User;
+  @Input() user: User;
   private message: string;
+  @Output() onUserClick: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private chatService: ChatService, public dialog: MatDialog) {
-
+  constructor(private chatService: ChatService) {
     this.messages = [];
-    this.user = new User('');
     this.message = '';
   }
 
-  ngOnInit() {}
-
-  ngAfterViewInit(){
-    setTimeout(() => this.askForUsername('unknown'));
-
+  ngOnInit() {
+    this.getMessage();
   }
-
-
-  private askForUsername(data: string): void {
-
-    const dialogRef = this.dialog.open(UsernameDialogComponent, {
-      width: '250px',
-      height: '200px',
-      disableClose: true,
-      autoFocus: true,
-      data: {userExists: data}
-    });
-
-    dialogRef.afterClosed().subscribe(choosenUsername => {
-
-      if(choosenUsername) {
-
-        // check if username is already taken
-
-        this.chatService.checkUsernameAvailability(choosenUsername).subscribe((userExists) => {
-
-          if(!userExists) {
-
-            this.user['username'] = choosenUsername;
-            this.chatService.connectUser(choosenUsername);
-            this.getMessage(); // subscribe the user to receive messages after user is connected
-
-          }else {
-            this.askForUsername('true')
-          }
-
-        });
-
-      }else{
-        this.askForUsername('unknown');
-      }
-    });
-
-  }
-
 
   sendMessage(): void {
 
@@ -85,10 +40,18 @@ export class GroupChatTabComponent implements OnInit, AfterViewInit {
   }
 
 
+
   privateChat(username: string): void {
-    console.log(username);
+
+    if(username !== 'SERVER') {
+      // emit user data to parent component (chat-tabs-container) so it can dynamically generate a private-chat-tab component and pass the user as input
+
+      this.onUserClick.emit(username);
+
+    }
 
   }
+
 
 
 
