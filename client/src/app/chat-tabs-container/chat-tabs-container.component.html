@@ -1,3 +1,6 @@
+
+<!-- will probably restructure project and just make a "Chat Tab" Component -->
+
 <mat-tab-group>
 
   <mat-tab label="Group Chat"> <br/>
@@ -6,12 +9,15 @@
 
   <!-- dynamically inject private chat tabs here -->
 
-  <mat-tab label="Private Chat" *ngFor="let number of numberOfPrivateChats">
+  <div *ngFor="let partner of chatPartners">
 
-    <div #privateChatsContainer></div>
+  <mat-tab label="Private Chat">
+
+
 
   </mat-tab>
 
+  </div>
 
 
 </mat-tab-group>

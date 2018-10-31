@@ -10,14 +10,11 @@ import {User} from "../../models/user.model";
 })
 export class PrivateChatTabComponent implements OnInit {
 
-  public messages: Message[];
+  public messages: Message[] = [];
   @Input() user: User;
-  private message: string;
+  private message: string = '';
 
-  constructor(private chatService: ChatService) {
-    this.messages = [];
-    this.message = '';
-  }
+  constructor(private chatService: ChatService) {}
 
   ngOnInit() {
     this.getMessage();

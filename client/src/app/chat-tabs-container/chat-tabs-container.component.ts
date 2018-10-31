@@ -13,13 +13,13 @@ import {PrivateChatTabComponent} from "./private-chat-tab/private-chat-tab.compo
 })
 export class ChatTabsContainerComponent implements OnInit, AfterViewInit {
 
-  numberOfPrivateChats: Array<number>;
-  @ViewChild('privateChatsContainer', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
+  chatPartners: Array<User>;
+  // @ViewChild('privateChatsContainer', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
   user: User;
   userConnected: boolean = false;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver, private chatService: ChatService, public dialog: MatDialog) {
-    this.numberOfPrivateChats = [];
+    this.chatPartners = [];
   }
 
   ngOnInit() {}
@@ -68,17 +68,25 @@ export class ChatTabsContainerComponent implements OnInit, AfterViewInit {
 
   initiatePrivateChat(username: string) {
 
-    // dynamically generate a private chat tab with this user passed as @Input()
-    this.numberOfPrivateChats.push(1);
-    const factory = this.componentFactoryResolver.resolveComponentFactory(PrivateChatTabComponent);
-    const ref = this.viewContainerRef.createComponent(factory);
-    ref.instance.user = new User(username);
-    ref.changeDetectorRef.detectChanges();
+
+    let isAlreadyChatPartner = false;
+
+    for(let i=0;i<this.chatPartners.length;i++){
+      if(this.chatPartners[i]['username'] === username){
+        isAlreadyChatPartner = true;
+      }
+    }
+
+    if(!isAlreadyChatPartner && username !== this.user['username']) {
+      this.chatPartners.push(new User(username));
+
+      // TODO: find a way to open private tab when you receive a message
+    }
+
 
   }
 
 
 
 }
-
 
