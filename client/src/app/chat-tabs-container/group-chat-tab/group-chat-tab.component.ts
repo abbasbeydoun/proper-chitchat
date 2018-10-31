@@ -41,12 +41,16 @@ export class GroupChatTabComponent implements OnInit {
 
 
 
-  privateChat(username: string): void {
+  initiatePrivateChat(username: string): void {
 
     if(username !== 'SERVER') {
       // emit user data to parent component (chat-tabs-container) so it can dynamically generate a private-chat-tab component and pass the user as input
 
       this.onUserClick.emit(username);
+
+
+      const msg = new Message(this.user, "This is a test message");
+      this.chatService.sendPrivateMessage(msg, new User(username));
 
     }
 

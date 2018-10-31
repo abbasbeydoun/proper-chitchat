@@ -1,10 +1,9 @@
-import {AfterViewInit, Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {UsernameDialogComponent} from "../dialogs/username-dialog/username-dialog.component";
 import {User} from "../models/user.model";
 import {ChatService} from "../services/chat.service";
 import {Message} from "../models/message.model";
 import {MatDialog} from '@angular/material';
-import {PrivateChatTabComponent} from "./private-chat-tab/private-chat-tab.component";
 
 @Component({
   selector: 'chat-tabs-container',
@@ -14,11 +13,10 @@ import {PrivateChatTabComponent} from "./private-chat-tab/private-chat-tab.compo
 export class ChatTabsContainerComponent implements OnInit, AfterViewInit {
 
   chatPartners: Array<User>;
-  // @ViewChild('privateChatsContainer', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
   user: User;
   userConnected: boolean = false;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private chatService: ChatService, public dialog: MatDialog) {
+  constructor(private chatService: ChatService, public dialog: MatDialog) {
     this.chatPartners = [];
   }
 
@@ -80,8 +78,15 @@ export class ChatTabsContainerComponent implements OnInit, AfterViewInit {
     if(!isAlreadyChatPartner && username !== this.user['username']) {
       this.chatPartners.push(new User(username));
 
-      // TODO: find a way to open private tab when you receive a message
     }
+
+
+  }
+
+
+
+  receivePrivateChat(user: User) {
+
 
 
   }

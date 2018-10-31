@@ -5,6 +5,7 @@ import {Message} from "../models/message.model";
 import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
 import {map} from 'rxjs/operators/map'
+import {User} from "../models/user.model";
 
 
 @Injectable()
@@ -29,6 +30,23 @@ export class ChatService {
       this.socket.on('message', (data: Message) => observer.next(data));
     });
   }
+
+
+  public sendPrivateMessage(message: Message, to: User) {
+
+    this.socket.emit('privatemessage', {
+      message: message,
+      to: to
+    });
+
+  }
+
+  public getPrivateMessages() {
+    return new Observable<Message>((observer) => {
+      this.socket.on('privatemessage', (data: any) => observer.next(data));
+    });
+  }
+
 
 
   public checkUsernameAvailability(username): Observable<boolean> {

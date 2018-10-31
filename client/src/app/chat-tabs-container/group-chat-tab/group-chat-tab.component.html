@@ -2,7 +2,7 @@
 
 
     <div *ngFor="let msg of messages">
-      <b style="cursor: pointer;" (click)="privateChat($event.target.innerHTML)">{{msg['owner']['username']}}</b>: {{msg['content']}}  <br/>
+      <b style="cursor: pointer;" (click)="initiatePrivateChat($event.target.innerHTML)">{{msg['owner']['username']}}</b>: {{msg['content']}}  <br/>
     </div> <br/>
 
     <input [(ngModel)]="message" (keyup)="$event.keyCode == 13 && sendMessage()" />

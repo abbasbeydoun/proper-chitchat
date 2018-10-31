@@ -175,6 +175,17 @@ io.on('connection', (socket) => {
 
     });
 
+
+    socket.on('privatemessage', (dataObject) => {
+
+        const message = dataObject['message'];
+        const to = dataObject['to'];
+
+        // TODO: Get user's socketID from database using username, then emit message to that user
+
+    });
+
+
     socket.on('disconnect', () => {
 
         const message = new Message(new User('SERVER'), username+' has left the chatroom');
