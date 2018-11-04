@@ -4,6 +4,7 @@ const app = express();
 
 const http = require('http');
 let server = http.Server(app);
+const configFile = require('./config');
 
 let socketIO = require('socket.io');
 let io = socketIO(server);
@@ -30,17 +31,17 @@ let db;
 // This is a mlab account i created for development purposes
 
 
-// In production, the username and password would be read from a config file and that has strict permissions set to it
+    MongoClient.connect('mongodb://'+configFile['username']+':' + configFile['password'] +'@ds129823.mlab.com:29823/storage', { useNewUrlParser: true }  , (err, database) => {
 
-// TODO: Actually do that
+        if (err) return console.log(err);
+        db = database.db('storage')
+
+    });
 
 
-MongoClient.connect('mongodb://abbasbeydoun95:mlabpass69@ds129823.mlab.com:29823/storage', { useNewUrlParser: true }  , (err, database) => {
 
-    if (err) return console.log(err);
-    db = database.db('storage')
 
-});
+
 
 // RFC4122 compliant UUID generator
 
